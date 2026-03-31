@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import Navbar from '../components/Navbar';
 import WorkView from '../components/WorkView';
-import ImmersiveView from '../components/ImmersiveView';
 import { PROJECTS } from '../data/projects';
+
+// High-Fidelity Deferred Loading: Lower initial bundle weight
+const ImmersiveView = lazy(() => import('../components/ImmersiveView'));
 
 /**
  * High-Fidelity Video Preloader
@@ -93,10 +95,12 @@ const Home = ({ showLoader }) => {
 
             {(viewMode === 'immersive' || isTransitioning) && (
               <div className={`view-instance ${viewMode === 'immersive' ? 'show' : 'hide'}`}>
-                <ImmersiveView 
-                  initialProjectId={selectedProjectId}
-                  isMuted={isMuted} 
-                />
+                <Suspense fallback={null}>
+                  <ImmersiveView 
+                    initialProjectId={selectedProjectId}
+                    isMuted={isMuted} 
+                  />
+                </Suspense>
               </div>
             )}
           </div>
