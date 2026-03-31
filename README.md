@@ -1,16 +1,66 @@
-# React + Vite
+# Wallify Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## High-Fidelity Cinematic Project Gallery
+**By Sankhadip**
 
-Currently, two official plugins are available:
+[![GitHub repository](https://img.shields.io/badge/Gallery-60FPS-blueviolet?style=for-the-badge&logo=github)](https://github.com/sankhadipmondal05/Wallify)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Wallify is a premium, high-performance portfolio experience meticulously engineered for a 60FPS cinematic reveal. It features a unique "Singularity Burst" navigation system, an immersive 8-slice projection gallery, and an editorial metadata overlay architecture designed for maximum visual impact.
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 🚀 Key Evolutionary Features
 
-## Expanding the ESLint configuration
+#### 💠 60FPS Optimized Rendering engine
+- **Hardware Acceleration**: Every animating layer is locked to the GPU's compositor thread using `translateZ(0)` and `backface-visibility: hidden` to eliminate layout thrashing.
+- **Containment Scoping**: Leveraging modern CSS `contain: layout paint` to isolate project strips, ensuring that hover expansions never trigger global DOM recalculations.
+- **Lean Canvas Projection**: The immersive mode uses a high-performance single-master-video/multi-canvas rendering loop, pre-calculating source-geometry to maintain frame stability during complex project switching.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+#### 🌌 Singularity Burst Navigation
+- **Symmetrical Center-Out Arrival**: Unlike standard grid reveals, Wallify's projects "burst" from a common origin point in a weightless, air-tight sequence.
+- **Physics-Based Staggering**: Precise timing and delay offsets create a sense of mechanical depth as the collection reveals its editorial structure.
+- **Jitter-Free View Orchestration**: A specialized overlapping render switcher prevents the "visual pop" commonly associated with mounting/unmounting large media views.
+
+#### 🎥 Immersive 8-Slice Gallery
+- **Split-Video Projection**: A unified video feed is projected across 8 staggered canvases, creating a unique cinematic texture reminiscent of high-end editorial magazines.
+- **Floating Metadata Overlays**: Vertical project metadata and play controls float as independent, high-z-index layers, unaffected by the clipping or background-masking of the video slices.
+- **Cinematic Video Modal**: Integrated full-screen player with Gaussian blur backdrops and smart playback lifecycle syncing (auto-pausing background elements during focus).
+
+---
+
+### 🛠️ Technology Stack
+
+- **Core**: React 18+ & Vite
+- **Styling**: Vanilla CSS (Hardware-Optimized Architecture)
+- **Physics**: CSS Keyframe Engine & Specialized Cubic Bezier Curves
+- **Media**: HTML5 Video + Canvas 2D API (Desynchronized Mode)
+
+---
+
+### 📦 Setup & Installation
+
+1. **Clone the experience**:
+   ```bash
+   git clone https://github.com/sankhadipmondal05/Wallify.git
+   cd Wallify
+   ```
+
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+
+3. **Launch the gallery**:
+   ```bash
+   npm run dev
+   ```
+
+---
+
+### 🎨 Design Philosophy
+
+Wallify is built on the principle of **Editorial Motion**. Every interaction is designed to feel tactile, intentional, and expensive. From the rotation of the "X" button to the vertical stacking of the project titles, the interface prioritizes typographic hierarchy and rhythmic movement over generic utility.
+
+---
+
+**© 2024 Wallify Portfolio. Crafted with High-Fidelity Intent by Sankhadip.**
