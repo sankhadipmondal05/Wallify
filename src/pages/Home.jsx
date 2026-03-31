@@ -11,19 +11,24 @@ const ImmersiveView = lazy(() => import('../components/ImmersiveView'));
  * Sequentially "warms up" the browser cache for project videos
  * to ensure stutter-free transitions on Vercel.
  */
-const VideoPreloader = ({ projects }) => {
+const ResourcePreloader = ({ projects }) => {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
+    // 1. Immediate Image Warm-up: These are light, fetch them all at once
+    projects.forEach(p => {
+      const img = new Image();
+      img.src = p.image;
+    });
+
+    // 2. Sequential Video Warm-up: These are heavy, stick to one-by-one logic
     if (index >= projects.length) return;
 
-    // Use a light-weight background fetch
     const video = document.createElement('video');
     video.src = projects[index].video;
     video.preload = 'auto';
     video.muted = true;
     
-    // Once one project is cached enough, move to the next
     const onCanPlay = () => {
       setIndex(prev => prev + 1);
       video.removeEventListener('canplay', onCanPlay);
@@ -31,7 +36,6 @@ const VideoPreloader = ({ projects }) => {
 
     video.addEventListener('canplay', onCanPlay);
     
-    // Safety timeout: don't clog if one video fails
     const timeout = setTimeout(() => {
        setIndex(prev => prev + 1);
     }, 4000);
@@ -80,7 +84,7 @@ const Home = ({ showLoader }) => {
       
       {!showLoader && (
         <>
-          <VideoPreloader projects={PROJECTS} />
+          <ResourcePreloader projects={PROJECTS} />
           <div className="view-layer">
             {/* Overlapping Render: Keep both alive during transition to eliminate stutter */}
             {(viewMode === 'grid' || isTransitioning) && (
