@@ -1,7 +1,47 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import WorkView from '../components/WorkView';
 import ImmersiveView from '../components/ImmersiveView';
+import { PROJECTS } from '../data/projects';
+
+/**
+ * High-Fidelity Video Preloader
+ * Sequentially "warms up" the browser cache for project videos
+ * to ensure stutter-free transitions on Vercel.
+ */
+const VideoPreloader = ({ projects }) => {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    if (index >= projects.length) return;
+
+    // Use a light-weight background fetch
+    const video = document.createElement('video');
+    video.src = projects[index].video;
+    video.preload = 'auto';
+    video.muted = true;
+    
+    // Once one project is cached enough, move to the next
+    const onCanPlay = () => {
+      setIndex(prev => prev + 1);
+      video.removeEventListener('canplay', onCanPlay);
+    };
+
+    video.addEventListener('canplay', onCanPlay);
+    
+    // Safety timeout: don't clog if one video fails
+    const timeout = setTimeout(() => {
+       setIndex(prev => prev + 1);
+    }, 4000);
+
+    return () => {
+      video.removeEventListener('canplay', onCanPlay);
+      clearTimeout(timeout);
+    };
+  }, [index, projects]);
+
+  return null;
+};
 
 const Home = ({ showLoader }) => {
   const [viewMode, setViewMode] = useState('grid');
@@ -37,27 +77,30 @@ const Home = ({ showLoader }) => {
       />
       
       {!showLoader && (
-        <div className="view-layer">
-          {/* Overlapping Render: Keep both alive during transition to eliminate stutter */}
-          {(viewMode === 'grid' || isTransitioning) && (
-            <div className={`view-instance ${viewMode === 'grid' ? 'show' : 'hide'}`}>
-              <WorkView 
-                isLeaving={isTransitioning && viewMode === 'immersive'} 
-                onProjectClick={(id) => triggerViewChange(id)}
-                isMuted={isMuted}
-              /> 
-            </div>
-          )}
+        <>
+          <VideoPreloader projects={PROJECTS} />
+          <div className="view-layer">
+            {/* Overlapping Render: Keep both alive during transition to eliminate stutter */}
+            {(viewMode === 'grid' || isTransitioning) && (
+              <div className={`view-instance ${viewMode === 'grid' ? 'show' : 'hide'}`}>
+                <WorkView 
+                  isLeaving={isTransitioning && viewMode === 'immersive'} 
+                  onProjectClick={(id) => triggerViewChange(id)}
+                  isMuted={isMuted}
+                /> 
+              </div>
+            )}
 
-          {(viewMode === 'immersive' || isTransitioning) && (
-            <div className={`view-instance ${viewMode === 'immersive' ? 'show' : 'hide'}`}>
-              <ImmersiveView 
-                initialProjectId={selectedProjectId}
-                isMuted={isMuted} 
-              />
-            </div>
-          )}
-        </div>
+            {(viewMode === 'immersive' || isTransitioning) && (
+              <div className={`view-instance ${viewMode === 'immersive' ? 'show' : 'hide'}`}>
+                <ImmersiveView 
+                  initialProjectId={selectedProjectId}
+                  isMuted={isMuted} 
+                />
+              </div>
+            )}
+          </div>
+        </>
       )}
     </div>
   );
