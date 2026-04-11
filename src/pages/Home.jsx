@@ -16,34 +16,42 @@ const ResourcePreloader = ({ projects }) => {
 
   useEffect(() => {
     // 1. Immediate Image Warm-up: These are light, fetch them all at once
+    // Optimized for LCP: Images now get priority on the network.
     projects.forEach(p => {
       const img = new Image();
+      img.crossOrigin = "anonymous";
       img.src = p.image;
     });
 
-    // 2. Sequential Video Warm-up: These are heavy, stick to one-by-one logic
-    if (index >= projects.length) return;
+    // 2. Delayed Sequential Video Warm-up
+    // We delay the video preloading to ensure LCP images win the network race.
+    const preloaderTimeout = setTimeout(() => {
+      if (index >= projects.length) return;
 
-    const video = document.createElement('video');
-    video.src = projects[index].video;
-    video.preload = 'auto';
-    video.muted = true;
-    
-    const onCanPlay = () => {
-      setIndex(prev => prev + 1);
-      video.removeEventListener('canplay', onCanPlay);
-    };
+      const video = document.createElement('video');
+      video.crossOrigin = 'anonymous';
+      video.src = projects[index].video;
+      video.preload = 'auto';
+      video.muted = true;
+      
+      const onCanPlay = () => {
+        setIndex(prev => prev + 1);
+        video.removeEventListener('canplay', onCanPlay);
+      };
 
-    video.addEventListener('canplay', onCanPlay);
-    
-    const timeout = setTimeout(() => {
-       setIndex(prev => prev + 1);
-    }, 4000);
+      video.addEventListener('canplay', onCanPlay);
+      
+      const timeout = setTimeout(() => {
+         setIndex(prev => prev + 1);
+      }, 4000);
 
-    return () => {
-      video.removeEventListener('canplay', onCanPlay);
-      clearTimeout(timeout);
-    };
+      return () => {
+        video.removeEventListener('canplay', onCanPlay);
+        clearTimeout(timeout);
+      };
+    }, 1500); // 1.5s delay prevents video from choking the image paint
+
+    return () => clearTimeout(preloaderTimeout);
   }, [index, projects]);
 
   return null;

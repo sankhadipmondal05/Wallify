@@ -179,6 +179,7 @@ const StripVideo = ({ src, isMuted }) => {
       muted={isMuted}
       playsInline
       src={src}
+      crossOrigin="anonymous"
       preload="auto"
       style={{ pointerEvents: 'none' }}
     />

@@ -115,6 +115,7 @@ const ImmersiveView = ({ initialProjectId = 1, isMuted }) => {
           height: '1px',
           pointerEvents: 'none'
         }}
+        crossOrigin="anonymous"
         key={project.id}
       />
 
@@ -189,6 +190,7 @@ const ImmersiveView = ({ initialProjectId = 1, isMuted }) => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         videoSrc={project.video}
+        crossOrigin="anonymous"
       />
     </div>
   );
@@ -237,6 +239,7 @@ const VideoModal = ({ isOpen, onClose, videoSrc }) => {
           autoPlay
           controls
           playsInline
+          crossOrigin="anonymous"
         />
       </div>
     </div>
