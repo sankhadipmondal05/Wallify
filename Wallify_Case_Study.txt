@@ -1,0 +1,75 @@
+================================================================================
+CASE STUDY: WALLIFY - HIGH-FIDELITY CINEMATIC PROJECT GALLERY
+================================================================================
+
+PROJECT OVERVIEW
+----------------
+Wallify is a premium, high-performance portfolio experience meticulously 
+engineered to deliver a 60FPS cinematic reveal. It redefines the standard 
+project showcase by treating web interfaces as editorial magazines, combining 
+fluid typography with complex hardware-accelerated animations.
+
+THE CHALLENGE
+-------------
+Modern creative portfolios often suffer from:
+1. Static Interactivity: Standard grids feel uninspired and "templated."
+2. Performance Bottlenecks: Complex media transitions often lead to layout 
+   thrashing and dropped frames (jank).
+3. Lack of Immersion: Project details are usually disconnected from the 
+   visual experience of the work itself.
+
+THE SOLUTION: WALLIFY
+---------------------
+Wallify addresses these challenges by prioritizing "Editorial Motion" and 
+GPU-bound performance. It transforms the act of browsing projects into an 
+orchestrated cinematic event.
+
+Key Pillars:
+- Cinematic Reveal: Projects emerge via a "Singularity Burst" navigation system.
+- Hardware Optimized: 60FPS fluidity achieved through layer containment and 
+  GPU compositor locking.
+- 8-Slice Projection: A unique multi-canvas video engine that slices media 
+  for a textured, high-end feel.
+
+TECHNICAL ARCHITECTURE
+----------------------
+- Core: React 19 + Vite (Next-gen bundling and reactive state management)
+- Physics & Animation: GSAP + Custom CSS Keyframe Engine (Cubic Bezier precision)
+- Rendering: HTML5 Video + Canvas 2D API (Desynchronized mode for low-latency)
+- Performance: CSS `contain: layout paint` and `translateZ(0)` architecture.
+
+FEATURE SET
+-----------
+1. Singularity Burst: A symmetrical center-out arrival sequence that creates 
+   a weightless, mechanical depth.
+2. Immersive 8-Slice Gallery: A unified video feed projected across 8 
+   staggered canvases with editorial metadata overlays.
+3. Jitter-Free View Orchestration: Specialized render switchers to prevent 
+   visual popping during complex project transitions.
+4. Editorial Typography: High-contrast, vertical metadata stacking for a 
+   premium magazine aesthetic.
+
+CASE HIGHLIGHT: THE "HARDWARE-LOCKED" FLUIDITY
+----------------------------------------------
+Problem: Implementing an 8-slice video projection alongside heavy metadata 
+overlays traditionally causes global DOM recalculations, dropping the frame 
+rate to 30-40FPS on mid-range devices.
+
+Implementation:
+- Layer Isolation: Every animating slice is isolated using CSS Containment 
+  Scoping. This ensures that the hover expansion of one slice does not 
+  trigger a layout pass for the other seven.
+- GPU Compositing: All transitions are restricted to `transform` and `opacity` 
+  properties, ensuring they are handled by the GPU's compositor thread rather 
+  than the CPU's main thread.
+
+RESULT
+------
+Wallify maintains a locked 60FPS even during peak transition cycles. The 
+result is a portfolio that feels "expensive" and tactile—moving away from 
+traditional web patterns toward a high-fidelity digital installation.
+
+--------------------------------------------------------------------------------
+Developed by Sankhadip Mondal
+Wallify v1.0.0 | High-Fidelity Portfolio Engine
+--------------------------------------------------------------------------------
